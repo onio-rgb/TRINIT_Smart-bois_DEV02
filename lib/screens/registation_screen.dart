@@ -82,14 +82,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     else
                       authlvl = 0;
                     if (user != null) {
+                      var loggin = _auth.currentUser;
+
                       if (email.length > 12 &&
                           email.substring(email.length - 12) ==
                               '@company.com') {
-                        _firestore.collection('users').add({
+                        DocumentReference ref =
+                            await _firestore.collection('users').add({
                           'email': email,
                           'password': password,
-                          'authlvl': authlvl
+                          'authlvl': authlvl,
+                          'bugsresolved': 0,
                         });
+                        print("Astitva ${loggin!.uid}");
+                        _firestore
+                            .collection('users')
+                            .doc(ref.id)
+                            .update({'uid': loggin!.uid});
                       }
                       Navigator.pushNamed(context, 'postlogin_screen');
                     }

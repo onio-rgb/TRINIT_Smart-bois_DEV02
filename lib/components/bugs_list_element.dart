@@ -3,13 +3,16 @@ import 'dart:developer';
 import 'package:bugtracker/components/Button.dart';
 import 'package:bugtracker/main.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bugtracker/components/db_api.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BugElement extends StatefulWidget {
   String bugname;
   String description;
   String raisedBy;
   bool resolved;
-  String currentUser;
+  int currentUser;
   BugElement(
       {required this.bugname,
       required this.description,
@@ -22,6 +25,8 @@ class BugElement extends StatefulWidget {
 }
 
 class _BugElementState extends State<BugElement> {
+  final _auth = FirebaseAuth.instance;
+  var api_handler = new api();
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -55,8 +60,21 @@ class _BugElementState extends State<BugElement> {
             )
           ]),
           children: [
-            Text('Raised by '),
-            Text('desciption'),
+            FutureBuilder(
+              future: api_handler.getUserDetails(widget.raisedBy),
+              builder: (context, AsyncSnapshot snapshot) {
+                return Text(
+                  "Raised by : ${snapshot.data['email']}",
+                  style: GoogleFonts.oxygen(
+                      fontSize: 15, color: Colors.white, letterSpacing: 3),
+                );
+              },
+            ),
+            Text(
+              widget.description,
+              style: GoogleFonts.oxygen(
+                  fontSize: 15, color: Colors.white, letterSpacing: 3),
+            ),
             (widget.currentUser != '0' && !widget.resolved)
                 ? ((widget.currentUser == '4')
                     ? Container(

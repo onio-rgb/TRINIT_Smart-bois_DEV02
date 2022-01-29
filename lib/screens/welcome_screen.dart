@@ -10,27 +10,27 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation animation;
+  // late AnimationController controller;
+  // late Animation animation;
   @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      duration: Duration(seconds: 3),
-      vsync: this,
-    );
-    animation = ColorTween(begin: Colors.blueAccent, end: Colors.redAccent)
-        .animate(controller);
-    controller.forward();
-    animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed)
-        controller.reverse(from: 1);
-      else if (status == AnimationStatus.dismissed) controller.forward();
-    });
-    controller.addListener(() {
-      setState(() {});
-    });
-  }
+  // void initState() {
+  //   super.initState();
+  //   controller = AnimationController(
+  //     duration: Duration(seconds: 3),
+  //     vsync: this,
+  //   );
+  //   animation =
+  //       ColorTween(begin: Colors.red, end: Colors.blue).animate(controller);
+  //   controller.forward();
+  //   animation.addStatusListener((status) {
+  //     if (status == AnimationStatus.completed)
+  //       controller.reverse(from: 1);
+  //     else if (status == AnimationStatus.dismissed) controller.forward();
+  //   });
+  //   controller.addListener(() {
+  //     setState(() {});
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               child: Container(
                 child: Image.asset(
                   'images/logo.png',
-                  color: animation.value,
+                  color: Colors.blue,
                   width: 300,
                   height: 400,
                 ),
@@ -64,6 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               title: 'Register',
               color: Colors.grey.withOpacity(0.5),
               onPressed: () {
+                
                 Navigator.pushNamed(context, 'registration_screen');
               },
             ),

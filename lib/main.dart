@@ -19,8 +19,15 @@ class BugTracker extends StatelessWidget {
     Firebase.initializeApp();
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-        textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
-      ),
+          textTheme: TextTheme(
+              bodyText1: TextStyle(color: Colors.white),
+              bodyText2: TextStyle(color: Colors.white)),
+          cardColor: Color(0xFF393A4E),
+          primaryColor: Color(0xFF292838),
+          backgroundColor: Colors.black,
+          scaffoldBackgroundColor: Color(0xFF171922),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              backgroundColor: Colors.black, selectedItemColor: Colors.white)),
       initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),

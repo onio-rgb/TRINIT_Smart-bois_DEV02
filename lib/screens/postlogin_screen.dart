@@ -30,8 +30,6 @@ class _PostLoginScreenState extends State<PostLoginScreen> {
     return Scaffold(
       body: choseScreen(),
       bottomNavigationBar: BottomNavigationBar(
-        fixedColor: Colors.blue,
-        backgroundColor: Colors.black,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.supervised_user_circle_outlined), label: 'User'),

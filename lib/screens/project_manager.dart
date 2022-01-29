@@ -7,8 +7,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bugtracker/constant.dart';
-import 'package:bugtracker/components/db_api.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -23,15 +21,12 @@ class _UserScreenState extends State<UserScreen> {
   final _auth = FirebaseAuth.instance;
   late String pos;
   late User logginUser;
-  var api_handler = new api();
   @override
   Future<void> getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
         logginUser = user;
-        print("Verma ${logginUser.uid}");
-        LogginUser = await api_handler.getUserDetails(logginUser.uid);
       }
     } catch (e) {
       print(e);

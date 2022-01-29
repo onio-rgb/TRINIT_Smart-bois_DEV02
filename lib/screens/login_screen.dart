@@ -3,6 +3,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:bugtracker/components/Button.dart';
 import 'package:bugtracker/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'welcome_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -11,12 +12,34 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
+  // late AnimationController controller;
+  // late Animation animation;
   final _auth = FirebaseAuth.instance;
   late String email;
   bool showSpinner = false;
   late String password;
   @override
+  void initState() {
+    super.initState();
+    // controller = AnimationController(
+    //   duration: Duration(seconds: 3),
+    //   vsync: this,
+    // );
+    // animation = ColorTween(begin: Colors.blueAccent, end: Colors.redAccent)
+    //     .animate(controller);
+    // controller.forward();
+    // animation.addStatusListener((status) {
+    //   if (status == AnimationStatus.completed)
+    //     controller.reverse(from: 1);
+    //   else if (status == AnimationStatus.dismissed) controller.forward();
+    // });
+    // controller.addListener(() {
+    //   setState(() {});
+    // });
+  }
+
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
@@ -28,6 +51,22 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Flexible(
+                child: Hero(
+                  tag: 'logo',
+                  child: Container(
+                    child: Image.asset(
+                      'images/logo.png',
+                      color: Colors.blue,
+                      width: 150,
+                      height: 200,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
               TextField(
                   onChanged: (value) {
                     email = value;
@@ -54,11 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.grey.withOpacity(0.5),
                 onPressed: () async {
                   showSpinner = true;
-                  
-                  var loginuser= await _auth.signInWithEmailAndPassword(
+
+                  var loginuser = await _auth.signInWithEmailAndPassword(
                       email: email, password: password);
                   showSpinner = false;
-                  Navigator.pushNamed(context, 'postlogin_screen');
+                  
+                  Navigator.pushNamed(context, 'postlogin_screen')
+                      ;
                   // setState(() {
                   //   showSpinner = true;
                   // });
