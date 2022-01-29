@@ -17,7 +17,7 @@ class BugTracker extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
       ),
-      initialRoute: 'user_screen',
+      initialRoute: 'welcome_screen',
       routes: {
         'welcome_screen': (context) => WelcomeScreen(),
         'login_screen': (context) => LoginScreen(),

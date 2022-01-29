@@ -9,30 +9,51 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  int _selectedIndex = 0;
+  var option = ['User', 'Bug'];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          fixedColor: Colors.blue,
+          backgroundColor: Colors.black,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.supervised_user_circle_outlined),
+                label: 'User'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bug_report_outlined), label: 'Bug'),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
         body: Center(
-      child: Column(
-        children: [
-          blocks(
-            height: 300,
-            width: double.infinity,
-            child: Container(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
-              blocks(height: 130, width: 130, child: Container()),
-              SizedBox(
-                width: 40,
+              blocks(
+                height: 300,
+                width: double.infinity,
+                child: Container(),
               ),
-              blocks(height: 130, width: 130, child: Container()),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  blocks(height: 130, width: 130, child: Container()),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  blocks(height: 130, width: 130, child: Container()),
+                ],
+              )
             ],
-          )
-        ],
-      ),
-    ));
+          ),
+        ));
   }
 }
 
