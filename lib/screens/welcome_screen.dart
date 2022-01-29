@@ -20,7 +20,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Button(
               title: 'Log In',
               color: Colors.grey.withOpacity(0.5),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, 'login_screen');
+              },
             ),
             SizedBox(
               height: 48.0,
