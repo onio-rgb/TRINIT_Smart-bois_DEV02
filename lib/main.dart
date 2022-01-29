@@ -1,9 +1,11 @@
 import 'package:bugtracker/screens/login_screen.dart';
+import 'package:bugtracker/screens/registation_screen.dart';
 import 'package:bugtracker/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/user.dart';
 import 'screens/postlogin_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(const BugTracker());
@@ -14,6 +16,7 @@ class BugTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
         textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
@@ -24,6 +27,7 @@ class BugTracker extends StatelessWidget {
         'login_screen': (context) => LoginScreen(),
         'user_screen': (context) => UserScreen(),
         'postlogin_screen': (context) => PostLoginScreen(),
+        'registration_screen': (context) => RegistrationScreen(),
       },
     );
   }

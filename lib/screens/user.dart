@@ -1,6 +1,8 @@
 import 'package:bugtracker/screens/bugs_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -10,7 +12,27 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  late User logginUser;
   @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final user = await _auth.currentUser;
+      if (user != null) {
+        logginUser = user;
+        
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
@@ -19,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
           blocks(
             height: 300,
             width: double.infinity,
-            child: Container(),
+            child: Center(child: Text(_firestore.collection('user').where('email', isEqualTo: logginUser.email).get().),),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
