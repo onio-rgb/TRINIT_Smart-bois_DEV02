@@ -75,8 +75,8 @@ class _BugElementState extends State<BugElement> {
               style: GoogleFonts.oxygen(
                   fontSize: 15, color: Colors.white, letterSpacing: 3),
             ),
-            (widget.currentUser != '0' && !widget.resolved)
-                ? ((widget.currentUser == '4')
+            (widget.currentUser != 0 && !widget.resolved)
+                ? ((widget.currentUser == 4)
                     ? Container(
                         height: 40,
                         decoration: BoxDecoration(

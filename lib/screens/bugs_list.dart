@@ -19,7 +19,7 @@ class _BugListState extends State<BugList> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-      future: api_handler.getUserBugs(_auth.currentUser!.uid),
+      future: (LogginUser['authlvl']!=0) ? api_handler.getUserBugs(_auth.currentUser!.uid) : api_handler.getPublicBugs(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.none &&
             snapshot.hasData == null) {

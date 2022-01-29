@@ -100,6 +100,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             .doc(ref.id)
                             .update({'uid': loggin!.uid});
                       }
+                      else {
+                        DocumentReference ref =
+                            await _firestore.collection('users').add({
+                          'email': email,
+                          'password': password,
+                          'authlvl': 0,
+                          'bugsresolved': 0,
+                        });
+                        print("Astitva ${loggin!.uid}");
+                        _firestore
+                            .collection('users')
+                            .doc(ref.id)
+                            .update({'uid': loggin!.uid});
+                      }
                       Navigator.pushNamed(context, 'postlogin_screen');
                     }
                     setState(() {
