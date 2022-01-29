@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bugtracker/components/Button.dart';
+import 'package:bugtracker/main.dart';
 import 'package:flutter/material.dart';
 
 class BugElement extends StatefulWidget {
@@ -27,27 +28,61 @@ class _BugElementState extends State<BugElement> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ExpansionTile(
-          title: Row(children: [
-            Text(widget.bugname),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              widget.bugname,
+              style: TextStyle(color: Colors.white),
+            ),
             Container(
-              width: 100,
-              height: 50,
-              color: (widget.resolved) ? (Colors.green) : (Colors.red),
+              decoration: BoxDecoration(
+                  color: (widget.resolved) ? (Colors.green) : (Colors.red),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              width: 110,
+              height: 25,
+              child: (widget.resolved)
+                  ? (Text(
+                      'Resolved',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    ))
+                  : (Text(
+                      'Not Resolved',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white),
+                    )),
             )
           ]),
           children: [
             Text('Raised by '),
             Text('desciption'),
-            (widget.currentUser != '0')
+            (widget.currentUser != '0' && !widget.resolved)
                 ? ((widget.currentUser == '4')
-                    ? FlatButton(
-                        color: Colors.green,
-                        child: Text('Assign to'),
-                        onPressed: () {})
-                    : FlatButton(
-                        color: Colors.green,
-                        child: Text('Mark Resolved'),
-                        onPressed: () {}))
+                    ? Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(color: Colors.black),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: FlatButton(
+                            color: Colors.transparent,
+                            child: Text('Assign to'),
+                            onPressed: () {}),
+                      )
+                    : Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            border: Border.all(color: Colors.black),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        child: FlatButton(
+                            color: Colors.transparent,
+                            child: Text('Mark Resolved'),
+                            onPressed: () {}),
+                      ))
                 : Container(),
           ],
         ),

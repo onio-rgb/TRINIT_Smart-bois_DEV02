@@ -3,6 +3,7 @@ import 'package:bugtracker/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/user.dart';
+import 'screens/postlogin_screen.dart';
 
 void main() {
   runApp(const BugTracker());
@@ -22,6 +23,7 @@ class BugTracker extends StatelessWidget {
         'welcome_screen': (context) => WelcomeScreen(),
         'login_screen': (context) => LoginScreen(),
         'user_screen': (context) => UserScreen(),
+        'postlogin_screen': (context) => PostLoginScreen(),
       },
     );
   }

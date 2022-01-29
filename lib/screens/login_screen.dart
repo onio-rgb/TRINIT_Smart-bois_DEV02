@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Log In',
                 color: Colors.grey.withOpacity(0.5),
                 onPressed: () async {
-                  Navigator.pushNamed(context, 'user_screen');
+                  Navigator.pushNamed(context, 'postlogin_screen');
                   // setState(() {
                   //   showSpinner = true;
                   // });
