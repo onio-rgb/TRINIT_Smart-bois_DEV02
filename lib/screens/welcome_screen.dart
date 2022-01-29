@@ -8,15 +8,48 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation animation;
   @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+    animation = ColorTween(begin: Colors.blueAccent, end: Colors.redAccent)
+        .animate(controller);
+    controller.forward();
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed)
+        controller.reverse(from: 1);
+      else if (status == AnimationStatus.dismissed) controller.forward();
+    });
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black54,
+      backgroundColor: Colors.black26,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Hero(
+              tag: 'logo',
+              child: Container(
+                child: Image.asset(
+                  'images/logo.png',
+                  color: animation.value,
+                  width: 300,
+                  height: 400,
+                ),
+              ),
+            ),
             Button(
               title: 'Log In',
               color: Colors.grey.withOpacity(0.5),

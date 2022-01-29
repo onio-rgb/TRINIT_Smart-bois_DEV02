@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:bugtracker/components/Button.dart';
 import 'package:bugtracker/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _auth = FirebaseAuth.instance;
   late String email;
   bool showSpinner = false;
   late String password;
@@ -51,6 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Log In',
                 color: Colors.grey.withOpacity(0.5),
                 onPressed: () async {
+                  showSpinner = true;
+                  
+                  var loginuser= await _auth.signInWithEmailAndPassword(
+                      email: email, password: password);
+                  showSpinner = false;
                   Navigator.pushNamed(context, 'postlogin_screen');
                   // setState(() {
                   //   showSpinner = true;
