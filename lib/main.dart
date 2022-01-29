@@ -6,6 +6,7 @@ import 'screens/welcome_screen.dart';
 import 'screens/user.dart';
 import 'screens/postlogin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'screens/report_bug.dart';
 
 void main() {
   runApp(const BugTracker());
@@ -23,6 +24,9 @@ class BugTracker extends StatelessWidget {
               bodyText1: TextStyle(color: Colors.white),
               bodyText2: TextStyle(color: Colors.white)),
           cardColor: Color(0xFF393A4E),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+              foregroundColor: Colors.white,
+              backgroundColor: Color(0xFF292838)),
           primaryColor: Color(0xFF292838),
           backgroundColor: Colors.black,
           scaffoldBackgroundColor: Color(0xFF171922),
@@ -35,6 +39,7 @@ class BugTracker extends StatelessWidget {
         'user_screen': (context) => UserScreen(),
         'postlogin_screen': (context) => PostLoginScreen(),
         'registration_screen': (context) => RegistrationScreen(),
+        'report_bug': (context) => ReportBug()
       },
     );
   }

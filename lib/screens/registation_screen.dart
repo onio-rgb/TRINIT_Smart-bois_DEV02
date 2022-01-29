@@ -99,8 +99,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             .collection('users')
                             .doc(ref.id)
                             .update({'uid': loggin!.uid});
-                      }
-                      else {
+                      } else {
                         DocumentReference ref =
                             await _firestore.collection('users').add({
                           'email': email,
