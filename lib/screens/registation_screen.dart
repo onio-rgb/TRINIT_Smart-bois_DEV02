@@ -98,7 +98,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _firestore
                             .collection('users')
                             .doc(ref.id)
-                            .update({'uid': loggin!.uid});
+                            .update({'uid': loggin!.uid,
+                            'docid' : ref.id});
+                        _firestore
+                            .collection('users')
+                            .doc(ref.id)
+                            .collection('messages')
+                            .add({
+                          'sender': "",
+                          'text': "",
+                          'time': Timestamp.now()
+                        });
                       } else {
                         DocumentReference ref =
                             await _firestore.collection('users').add({
@@ -111,7 +121,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _firestore
                             .collection('users')
                             .doc(ref.id)
-                            .update({'uid': loggin!.uid});
+                            .update({'uid': loggin!.uid,
+                            'docid' : ref.id});
+                        _firestore
+                            .collection('users')
+                            .doc(ref.id)
+                            .collection('messages')
+                            .add({
+                          'sender': "",
+                          'text': "",
+                          'time': Timestamp.now()
+                        });
                       }
                       Navigator.pushNamed(context, 'postlogin_screen');
                     }

@@ -113,23 +113,6 @@ class _UserScreenState extends State<UserScreen> {
                         )),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    blocks(
-                      height: 130,
-                      width: 175,
-                      child: Container(),
-                      radius: 15,
-                    ),
-                    blocks(
-                      height: 130,
-                      width: 175,
-                      child: Container(),
-                      radius: 15,
-                    ),
-                  ],
-                )
               ],
             ),
           ));

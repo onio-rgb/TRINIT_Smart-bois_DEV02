@@ -98,6 +98,7 @@ class _LoginScreenState extends State<LoginScreen>
                   var loginuser = await _auth.signInWithEmailAndPassword(
                       email: email, password: password);
                   showSpinner = false;
+                  setState(() {});
 
                   Navigator.pushNamed(context, 'postlogin_screen');
                   // setState(() {
