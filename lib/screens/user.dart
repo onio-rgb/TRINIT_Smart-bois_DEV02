@@ -22,14 +22,13 @@ class _UserScreenState extends State<UserScreen> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late String pos;
- 
+
   var api_handler = new api();
   @override
   Future<void> getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
-        
         //print("Verma ${logginUser.uid}");
         LogginUser = await api_handler.getUserDetails(user.uid);
       }
@@ -64,11 +63,11 @@ class _UserScreenState extends State<UserScreen> {
           return Scaffold(
               // backgroundColor: Colors.black,
               body: Center(
-            child: Column(
+            child: ListView(
               children: [
                 blocks(
                   radius: 25,
-                  height: 300,
+                  height: 600,
                   width: double.infinity,
                   child: Center(
                     child: ModalProgressHUD(
@@ -93,6 +92,10 @@ class _UserScreenState extends State<UserScreen> {
                               return Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  CircleAvatar(
+                                    backgroundImage:
+                                        AssetImage('images/avatar2.png'),
+                                  ),
                                   heading(text: "Email"),
                                   Info(text: data[0].data()['email']),
                                   heading(text: "Job Position"),
@@ -191,7 +194,7 @@ class Info extends StatelessWidget {
       padding: EdgeInsets.all(8),
       child: Text(
         text,
-        style: GoogleFonts.oxygen(fontSize: 20, letterSpacing: 3),
+        style: GoogleFonts.oxygen(fontSize: 17, letterSpacing: 3),
       ),
     );
   }

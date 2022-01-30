@@ -67,7 +67,8 @@ class _ReportBugState extends State<ReportBug> {
                 'description': description,
                 'raisedby': LogginUser['uid'],
                 'plvl': 1,
-                'resolved': false
+                'resolved': false,
+                'assignto': ""
               });
               await _firestore
                   .collection('bugs')

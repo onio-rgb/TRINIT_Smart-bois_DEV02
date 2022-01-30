@@ -21,7 +21,7 @@ class _TeamListState extends State<TeamList> {
       return "U";
   }
 
-  double _value = 4;
+  double _value = 1;
   String uid = "";
   int? highlight = 100000;
   @override

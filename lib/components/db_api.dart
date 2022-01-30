@@ -9,11 +9,12 @@ class api {
     if (user['authlvl'] != 4) {
       data = await _firestore
           .collection('bugs')
-          .where('assignedto', isEqualTo: uid)
+          .where('assignto', isEqualTo: user['uid'])
           .get();
     } else {
       data = await _firestore.collection('bugs').get();
     }
+    //print("VERMA ${data.docs.length}");
     var list = data.docs;
     for (var bug in list) {
       if (bug.data()['plvl'] <= user['authlvl'] || user['authlvl'] == 4) ;

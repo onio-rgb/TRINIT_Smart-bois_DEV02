@@ -16,13 +16,17 @@ class BugElement extends StatefulWidget {
   String raisedBy;
   bool resolved;
   int currentUser;
+  int plvl;
+  String assignedto;
   BugElement(
       {required this.bugname,
       required this.description,
       required this.raisedBy,
       required this.resolved,
       required this.currentUser,
-      required this.docid});
+      required this.docid,
+      required this.plvl,
+      required this.assignedto});
 
   @override
   _BugElementState createState() => _BugElementState();
@@ -33,12 +37,25 @@ class _BugElementState extends State<BugElement> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   var api_handler = new api();
+  MaterialColor threatlvl(int plvl) {
+    if (plvl == 4)
+      return Colors.red;
+    else if (plvl == 3)
+      return Colors.orange;
+    else if (plvl == 2)
+      return Colors.green;
+    else
+      return Colors.blue;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: threatlvl(widget.plvl),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ExpansionTile(
+          backgroundColor: threatlvl(widget.plvl),
           title:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
@@ -80,6 +97,22 @@ class _BugElementState extends State<BugElement> {
                   return Container();
               },
             ),
+            (widget.assignedto !="") ? 
+            FutureBuilder(
+              future: api_handler.getUserDetails(widget.assignedto),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData &&
+                    snapshot.data != null) {
+                  return Text(
+                    "Assigned to : ${snapshot.data['email']}",
+                    style: GoogleFonts.oxygen(
+                        fontSize: 15, color: Colors.white, letterSpacing: 3),
+                  );
+                } else
+                  return Container();
+              },
+            ):Container(),
             Text(
               widget.description,
               style: GoogleFonts.oxygen(
@@ -110,7 +143,7 @@ class _BugElementState extends State<BugElement> {
                                     .update({
                                   'assignto': res[0],
                                   'plvl': res[1],
-                                  'resolved': true
+                                  'resolved': false
                                 });
                                 widget.resolved = true;
                                 setState(() {});
