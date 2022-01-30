@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:bugtracker/constants.dart';
@@ -22,7 +24,6 @@ class _ReportBugState extends State<ReportBug> {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-      
       color: Colors.white,
       inAsyncCall: showSpinner,
       child: Scaffold(
@@ -65,7 +66,13 @@ class _ReportBugState extends State<ReportBug> {
                 'title': title,
                 'description': description,
                 'raisedby': LogginUser['uid'],
+                'plvl': 1,
+                'resolved': false
               });
+              await _firestore
+                  .collection('bugs')
+                  .doc(loginuser.id)
+                  .update({'bugid': loginuser.id});
               showSpinner = false;
 
               Navigator.pop(context);

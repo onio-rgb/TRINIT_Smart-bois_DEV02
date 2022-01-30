@@ -22,16 +22,16 @@ class _UserScreenState extends State<UserScreen> {
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   late String pos;
-  late User logginUser;
+ 
   var api_handler = new api();
   @override
   Future<void> getCurrentUser() async {
     try {
       final user = await _auth.currentUser;
       if (user != null) {
-        logginUser = user;
-        print("Verma ${logginUser.uid}");
-        LogginUser = await api_handler.getUserDetails(logginUser.uid);
+        
+        //print("Verma ${logginUser.uid}");
+        LogginUser = await api_handler.getUserDetails(user.uid);
       }
     } catch (e) {
       print(e);
@@ -41,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
   Future<QuerySnapshot<Map<String, dynamic>>> getCurrentUserDetails() async {
     QuerySnapshot<Map<String, dynamic>> user = await _firestore
         .collection('user')
-        .where('email', isEqualTo: logginUser.email)
+        .where('email', isEqualTo: LogginUser['email'])
         .get();
     return user;
   }
@@ -76,7 +76,7 @@ class _UserScreenState extends State<UserScreen> {
                         child: FutureBuilder(
                           future: _firestore
                               .collection('users')
-                              .where("email", isEqualTo: logginUser.email)
+                              .where("email", isEqualTo: LogginUser['email'])
                               .get(),
                           builder: (context, snapshot1) {
                             if (snapshot1.connectionState ==

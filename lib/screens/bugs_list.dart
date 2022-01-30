@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bugtracker/components/bugs_list_element.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bugtracker/components/db_api.dart';
+import 'dart:async';
 
 class BugList extends StatefulWidget {
   const BugList({Key? key}) : super(key: key);
@@ -14,6 +15,9 @@ class BugList extends StatefulWidget {
 class _BugListState extends State<BugList> {
   var api_handler = new api();
   final _auth = FirebaseAuth.instance;
+  FutureOr onGoBack(dynamic value) {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class _BugListState extends State<BugList> {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            Navigator.pushNamed(context, 'report_bug');
+            Navigator.pushNamed(context, 'report_bug').then(onGoBack);
           },
         ),
         body: FutureBuilder(
@@ -29,6 +33,7 @@ class _BugListState extends State<BugList> {
               ? api_handler.getUserBugs(_auth.currentUser!.uid)
               : api_handler.getPublicBugs(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            //print("Vermaa ${snapshot.data.length}");
             if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData == null) {
               return Center(child: CircularProgressIndicator());
@@ -41,7 +46,8 @@ class _BugListState extends State<BugList> {
                       description: snapshot.data[index]['description'],
                       raisedBy: snapshot.data[index]['raisedby'],
                       resolved: snapshot.data[index]['resolved'],
-                      currentUser: LogginUser['authlvl']);
+                      currentUser: LogginUser['authlvl'],
+                      docid: snapshot.data[index]['bugid'],);
                 },
               );
             }

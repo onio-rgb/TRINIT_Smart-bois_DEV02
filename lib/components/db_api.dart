@@ -5,13 +5,18 @@ class api {
     final _firestore = FirebaseFirestore.instance;
     Map<String, dynamic> user = await getUserDetails(uid);
     List<Map<String, dynamic>> bugs = [];
-    var data = await _firestore
-        .collection('bugs')
-        .where('assignedto', isEqualTo: uid)
-        .get();
+    var data;
+    if (user['authlvl'] != 4) {
+      data = await _firestore
+          .collection('bugs')
+          .where('assignedto', isEqualTo: uid)
+          .get();
+    } else {
+      data = await _firestore.collection('bugs').get();
+    }
     var list = data.docs;
     for (var bug in list) {
-      if (bug.data()['plvl'] <= user['authlvl']) ;
+      if (bug.data()['plvl'] <= user['authlvl'] || user['authlvl'] == 4) ;
       bugs.add(bug.data());
     }
     return bugs;
@@ -20,10 +25,8 @@ class api {
   Future<List<Map<String, dynamic>>> getPublicBugs() async {
     final _firestore = FirebaseFirestore.instance;
     List<Map<String, dynamic>> bugs = [];
-    var data = await _firestore
-        .collection('bugs')
-        .where('plvl', isEqualTo: 0)
-        .get();
+    var data =
+        await _firestore.collection('bugs').where('plvl', isEqualTo: 0).get();
     var list = data.docs;
     for (var bug in list) {
       bugs.add(bug.data());
@@ -37,5 +40,21 @@ class api {
         await _firestore.collection('users').where('uid', isEqualTo: uid).get();
     var user = data.docs;
     return user[0].data();
+  }
+
+  Future<List<Map<String, dynamic>>> getTeamList() async {
+    final _firestore = FirebaseFirestore.instance;
+    List<Map<String, dynamic>> teamMembers = [];
+    var data = await _firestore
+        .collection('users')
+        .where('authlvl', isNotEqualTo: 0)
+        .orderBy('authlvl', descending: true)
+        .orderBy('bugsresolved', descending: true)
+        .get();
+    var list = data.docs;
+    for (var member in list) {
+      teamMembers.add(member.data());
+    }
+    return teamMembers;
   }
 }

@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:bugtracker/components/Button.dart';
 import 'package:bugtracker/main.dart';
+import 'package:bugtracker/screens/team_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:bugtracker/components/db_api.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BugElement extends StatefulWidget {
+  String docid;
   String bugname;
   String description;
   String raisedBy;
@@ -18,13 +21,16 @@ class BugElement extends StatefulWidget {
       required this.description,
       required this.raisedBy,
       required this.resolved,
-      required this.currentUser});
+      required this.currentUser,
+      required this.docid});
 
   @override
   _BugElementState createState() => _BugElementState();
 }
 
 class _BugElementState extends State<BugElement> {
+  var res = [];
+  final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   var api_handler = new api();
   @override
@@ -63,11 +69,15 @@ class _BugElementState extends State<BugElement> {
             FutureBuilder(
               future: api_handler.getUserDetails(widget.raisedBy),
               builder: (context, AsyncSnapshot snapshot) {
-                return Text(
-                  "Raised by : ${snapshot.data['email']}",
-                  style: GoogleFonts.oxygen(
-                      fontSize: 15, color: Colors.white, letterSpacing: 3),
-                );
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.hasData) {
+                  return Text(
+                    "Raised by : ${snapshot.data['email']}",
+                    style: GoogleFonts.oxygen(
+                        fontSize: 15, color: Colors.white, letterSpacing: 3),
+                  );
+                } else
+                  return Container();
               },
             ),
             Text(
@@ -87,7 +97,25 @@ class _BugElementState extends State<BugElement> {
                         child: FlatButton(
                             color: Colors.transparent,
                             child: Text('Assign to'),
-                            onPressed: () {}),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      TeamList()).then((value) {
+                                res = value;
+                                //print("Vermaaaa ${res}");
+                                _firestore
+                                    .collection('bugs')
+                                    .doc(widget.docid)
+                                    .update({
+                                  'assignto': res[0],
+                                  'plvl': res[1],
+                                  'resolved': true
+                                });
+                                widget.resolved = true;
+                                setState(() {});
+                              });
+                            }),
                       )
                     : Container(
                         height: 40,
